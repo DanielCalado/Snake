@@ -1,3 +1,9 @@
+# Snake
+
+### Descrição
+Jogo em corona sdk para a diciplina de jogos
+
+
 # Estoria do Usuario
 
 | Como um                | O que fazer              | para             |Prioridade|
