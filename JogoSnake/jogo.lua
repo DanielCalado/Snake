@@ -7,13 +7,10 @@ cobra = {}
 direcoes = {}
 tabuleiro = {}
 direcao = "direita"
---clama os metodos que criam o cenario do jogo
 
-    function scene:create( event )
-        local sceneGroup = self.view
+function scene:create( event )
+    local sceneGroup = self.view
     
-
--- pega do botão a proxima direção
 local function determinarDirecao(event)
     
     if event.phase == "began" then
@@ -32,10 +29,10 @@ local moverParaCima = widget.newButton(
         onEvent = determinarDirecao
     }
 )
-moverParaCima.x = display.contentCenterX
-moverParaCima.y = display.contentCenterY + 363
+    moverParaCima.x = display.contentCenterX
+    moverParaCima.y = display.contentCenterY + 363
+    sceneGroup:insert( moverParaCima )
 
-sceneGroup:insert( moverParaCima )
 -- botão para baixo
 local moverParaBixo = widget.newButton(
     {
@@ -47,11 +44,11 @@ local moverParaBixo = widget.newButton(
         onEvent = determinarDirecao
     }
 )
-moverParaBixo.x = display.contentCenterX
-moverParaBixo.y = display.contentCenterY + 537
-moverParaBixo.rotation = 180
+    moverParaBixo.x = display.contentCenterX
+    moverParaBixo.y = display.contentCenterY + 537
+    moverParaBixo.rotation = 180
+    sceneGroup:insert( moverParaBixo )
 
-sceneGroup:insert( moverParaBixo )
 --botão para direita
 local moverParaADireita = widget.newButton(
     {
@@ -63,11 +60,11 @@ local moverParaADireita = widget.newButton(
         onEvent = determinarDirecao
     }
 )
-moverParaADireita.x = display.contentCenterX + 200
-moverParaADireita.y = display.contentCenterY + 450
-moverParaADireita.rotation = 90
+    moverParaADireita.x = display.contentCenterX + 200
+    moverParaADireita.y = display.contentCenterY + 450
+    moverParaADireita.rotation = 90
+    sceneGroup:insert( moverParaADireita )
 
-sceneGroup:insert( moverParaADireita )
 -- botão para esquerda
 local moverParaAEsquerda = widget.newButton(
     {
@@ -79,15 +76,13 @@ local moverParaAEsquerda = widget.newButton(
         onEvent = determinarDirecao
     }
 )
-moverParaAEsquerda.x = display.contentCenterX - 200
-moverParaAEsquerda.y = display.contentCenterY + 450
-moverParaAEsquerda.rotation = - 90
-
-sceneGroup:insert( moverParaAEsquerda )
+    moverParaAEsquerda.x = display.contentCenterX - 200
+    moverParaAEsquerda.y = display.contentCenterY + 450
+    moverParaAEsquerda.rotation = - 90
+    sceneGroup:insert( moverParaAEsquerda )
 
 c = 0
 l = 0
---cria um tabuleiro que e usado como referencia para a cobra e plano de fundo
 function tabuleiro:gerar()
 	for linha = 1, 12 do
 		tabuleiro[linha] = {}
@@ -98,17 +93,15 @@ function tabuleiro:gerar()
             sceneGroup:insert( tabuleiro[linha][coluna] )
             c = c + 60
         end
-    c = 0
-    l = l + 60
+            c = 0
+            l = l + 60
     end
-    c = 0
-    l = 0
+        c = 0
+        l = 0
     return tabuleiro
-    
 end
 
 linhas = {}
---linhas que demilitam a area de jogo
 function tabuleiro:linhasDeLimiteDoJogo()
 
     linhas[1] = display.newLine(20, 100, 770, 100)
@@ -165,35 +158,35 @@ function cobra:criarDirecoes()
     end
     
     cobra:criarDirecoes()
-    --contador da posição inicial da cabeça
-    pi = 175
-    --cria todas as posições iniciais da cobra
-    function cobra:cobraInicial()
-        for i = 2, 61 do
-            if i < 5 then
-                cobra[i] = display.newRect(pi,0,55,55)
-                cobra[i].isVisible = true
-                sceneGroup:insert( cobra[i] )
-                pi = pi - 60
-            else
-                cobra[i] = display.newRect(pi,0,55,55)
-                cobra[i].isVisible = false
-                sceneGroup:insert( cobra[i] )
-                pi = pi - 60
-            end
-        end
-        pi = 175
-    end
-    
-    local pausa = display.newImageRect("pausa.png", 90,90)
-    pausa.x = 55
-    pausa.y = 1130
-    sceneGroup:insert( pausa )
 
-    function reiniciar(event)
-        if event.phase == "began" then
-            direcao = "direita"
-            cobra:criarDirecoes()
+    pi = 175
+function cobra:cobraInicial() 
+    for i = 2, 61 do
+        if i < 5 then
+            cobra[i] = display.newRect(pi,0,55,55)
+            cobra[i].isVisible = true
+            sceneGroup:insert( cobra[i] )
+            pi = pi - 60
+        else
+            cobra[i] = display.newRect(pi,0,55,55)
+            cobra[i].isVisible = false
+            sceneGroup:insert( cobra[i] )
+            pi = pi - 60
+        end
+    end
+    pi = 175
+end
+    
+local pausa = display.newImageRect("pausa.png", 90,90)
+      pausa.x = 55
+      pausa.y = 1130
+      sceneGroup:insert( pausa )
+
+function reiniciar(event)
+    if event.phase == "began" then
+        direcao = "direita"
+        cobra:criarDirecoes()
+        
         for i = 2, 61 do
             if i < 5 then
                 cobra[i].x = pi
@@ -209,186 +202,179 @@ function cobra:criarDirecoes()
         end
         zerarTodasAsVariaveis()
         pausa.isVisible = true
+    end
+end
 
-    end
-    end
+function zerarTodasAsVariaveis()
+    pi = 175
+    cont = 1
+    cobra:placar(0)
+    perdeu.isVisible = false
+    msg.isVisible = false
+    dnovo.isVisible = false
+    contFrutas = 0
+    score[1] = 0
+    timer.resume(tempo)
+end
 
-    function zerarTodasAsVariaveis()
-        pi = 175
-        cont = 1
-        cobra:placar(0)
-        perdeu.isVisible = false
-        msg.isVisible = false
-        dnovo.isVisible = false
-        contFrutas = 0
-        score[1] = 0
-        timer.resume(tempo)
+function cobra:direcaoDaCabeca(id)
+    if(direcao == "cima")then
+        cobra[id].y = cobra[id].y - 60
+    elseif(direcao == "esquerda")then
+        cobra[id].x = cobra[id].x -60
+    elseif(direcao == "baixo")then
+        cobra[id].y = cobra[id].y +60
+    elseif(direcao == "direita")then
+        cobra[id].x = cobra[id].x +60
     end
-    -- determina proxima posição da cabeça
-    function cobra:direcaoDaCabeca(id)
-        if(direcao == "cima")then
-            cobra[id].y = cobra[id].y - 60
-        elseif(direcao == "esquerda")then
-            cobra[id].x = cobra[id].x -60
-        elseif(direcao == "baixo")then
-            cobra[id].y = cobra[id].y +60
-        elseif(direcao == "direita")then
-            cobra[id].x = cobra[id].x +60
-        end
-    end
+end
     
-    -- movimeta a cobra de acordo com a nova posição da cabeça
-    function cobra:movimentarCobra()
-        for a = 2, #direcoes do
-            direcao = direcoes[a]
-            cobra:direcaoDaCabeca(a)
-        end
+function cobra:movimentarCobra()
+    for a = 2, #direcoes do
+        direcao = direcoes[a]
+        cobra:direcaoDaCabeca(a)
+    end
         direcao = direcoes[2]
-    end
+end
     
-    -- armazena a quantidade de direções
-    b = #direcoes
-    -- determina a nova posição do corpo a cada movimento da cobra
-    function cobra:geraPosicoesDoCorpo()
-    
-        for a = 0, #direcoes do
+b = #direcoes
+function cobra:geraPosicoesDoCorpo()    
+    for a = 0, #direcoes do
         if(a < #direcoes - 2)then
             b = b - 1
             direcoes[#direcoes - a] = direcoes[b]
         else
             direcoes[2] = direcao
         end
-            end
+    end
     b = #direcoes
     
-    cobra:movimentarCobra()
+    cobra:movimentarCobra()    
+ end
     
-    end
+cont = 1
+function cobra:almentarTamanho()
+    cobra[4 + cont].isVisible = true
+    cont = cont + 1
+end
     
-    cont = 1
-    --almenta o tamanho da cobra ao colidir com uma fruta
-    function cobra:almentarTamanho()
-        cobra[4 + cont].isVisible = true
-        cont = cont + 1
+contFrutas = 0
+function cobra:comerFrutas()
+    if (cobra[2].x == frutas[1].x and cobra[2].y == frutas[1].y)then
+        frutas[1]:removeSelf()
+        frutas:criarFrutasAleatorias()
+        cobra:almentarTamanho()
+        contFrutas = contFrutas + 1
+        cobra:placar(contFrutas)
     end
-    
-    --some a fruta apos ser comida e cria uma nova
-    contFrutas = 0
-    function cobra:comerFrutas()
-        if (cobra[2].x == frutas[1].x and cobra[2].y == frutas[1].y)then
-            frutas[1]:removeSelf()
-            frutas:criarFrutasAleatorias()
-            cobra:almentarTamanho()
-            contFrutas = contFrutas + 1
-            cobra:placar(contFrutas)
-        end
-    end
-    --local c = composer.getSceneName("main")
-    sair = display.newImageRect("saida.png", 90,90)
-    sair.x = 700
-    sair.y = 1130
-    sceneGroup:insert( sair )
-   
-    pr = 0
+end
 
-    function pausarEresume(event)
-        if event.phase == "began" then
+sair = display.newImageRect("saida.png", 90,90)
+sair.x = 700
+sair.y = 1130
+sceneGroup:insert( sair )
+   
+pr = 0
+function pausarEresume(event)
+    if event.phase == "began" then
         if pr == 0 then
             timer.pause(tempo)
             pr = 1
         else
             timer.resume(tempo)
             pr = 0
-
         end
     end
 end 
 
 pausa:addEventListener("touch", pausarEresume)
-    function cobra:desejaContinuar()
-        perdeu = display.newRect(display.contentCenterX,370,500,300)
-        perdeu:setFillColor(0,0,0)
-        perdeu:setStrokeColor(0,255,255)
-        perdeu.strokeWidth = 15
-        sceneGroup:insert( perdeu )
+function cobra:desejaContinuar()
+    perdeu = display.newRect(display.contentCenterX,370,500,300)
+    perdeu:setFillColor(0,0,0)
+    perdeu:setStrokeColor(0,255,255)
+    perdeu.strokeWidth = 15
+    sceneGroup:insert( perdeu )
+    
+    msg = display.newText(" -----(`-´)-----\nFim de Jogo", display.contentCenterX, 300, native.systemFont, 60)
+    sceneGroup:insert( msg )
 
-        msg = display.newText(" -----(`-´)-----\nFim de Jogo", display.contentCenterX, 300, native.systemFont, 60)
-        sceneGroup:insert( msg )
-
-        dnovo = display.newImageRect("dnovo.png", 90,90)
-        dnovo.x = display.contentCenterX
-        dnovo.y = 450
-        sceneGroup:insert( dnovo )
-
-        timer.pause(tempo)
-        pausa.isVisible = false
-        dnovo:addEventListener("touch", reiniciar)
-
-    end
-        
-    function sairDoJogo()
+    dnovo = display.newImageRect("dnovo.png", 90,90)
+    dnovo.x = display.contentCenterX
+    dnovo.y = 450
+    sceneGroup:insert( dnovo )
+    
     timer.pause(tempo)
-    
-        composer.gotoScene( "menu", "fade", 500 )
+    pausa.isVisible = false
+    dnovo:addEventListener("touch", reiniciar)
+end
         
-    end
-    sair:addEventListener("touch", sairDoJogo)
-    -- ao bates nas paredes ou no proprio corpo o jogo deve parar
-    function cobra:bateuPerdeu()
-        if (cobra[2].y < 0)then
-            cobra[2].isVisible = false
-            cobra:desejaContinuar() 
-        elseif (cobra[2].y > 660)then
-            cobra[2].isVisible = false
-            cobra:desejaContinuar() 
-        elseif (cobra[2].x < 55)then
-            cobra[2].isVisible = false
-            cobra:desejaContinuar() 
-        elseif (cobra[2].x > 715)then
-            cobra[2].isVisible = false
-            cobra:desejaContinuar()     
-        end
+function sairDoJogo()
+    timer.pause(tempo)    
+    composer.gotoScene( "menu", "fade", 500 )
+end
+
+sair:addEventListener("touch", sairDoJogo)
+
+function cobra:bateuPerdeu()
+    if (cobra[2].y < 0)then
+        cobra[2].isVisible = false
+        cobra:desejaContinuar() 
+    elseif (cobra[2].y > 660)then
+        cobra[2].isVisible = false
+        cobra:desejaContinuar() 
+    elseif (cobra[2].x < 55)then
+        cobra[2].isVisible = false
+        cobra:desejaContinuar() 
+    elseif (cobra[2].x > 715)then
+        cobra[2].isVisible = false
+        cobra:desejaContinuar()     
+end
     
-        for a = 3, 21 do
-            if(cobra[2].x == cobra[a].x and cobra[2].y == cobra[a].y)then
-                if(cobra[a].isVisible ~= false)then
-                    cobra:desejaContinuar()    
-                end
+    for a = 3, 61 do
+        if(cobra[2].x == cobra[a].x and cobra[2].y == cobra[a].y)then
+            if(cobra[a].isVisible ~= false)then
+                cobra:desejaContinuar()    
             end
         end
+    end 
+end
     
-    end
-    
-    pontuacao = display.newText("Frutas: ", 100, 750, native.systemFont, 40)
-    sceneGroup:insert( pontuacao )
-    nivel = display.newText("Nível ".. 1, 690, 750, native.systemFont, 40)
-    sceneGroup:insert( nivel )
-    score1 = display.newText("Pontos: ",display.contentCenterX, 750, native.systemFont, 40)
-    sceneGroup:insert( score1 )
-    function cobra:placar(a)
-        if a == 0 then
-            pontuacao.isVisible = false
-            pontuacao = display.newText("Frutas: ", 100, 750, native.systemFont, 40)
-            sceneGroup:insert( pontuacao )
-            nivel.isVisible = false
-            nivel = display.newText("Nível ".. 1, 690, 750, native.systemFont, 40)
-            sceneGroup:insert( nivel )
-            score1.isVisible = false
-            score1 = display.newText("Pontos: ",display.contentCenterX, 750, native.systemFont, 40)
-            sceneGroup:insert( score1 )
+pontuacao = display.newText("Frutas: ", 100, 750, native.systemFont, 40)
+sceneGroup:insert( pontuacao )
 
-        else
+nivel = display.newText("Nível ".. 1, 690, 750, native.systemFont, 40)
+sceneGroup:insert( nivel )
+
+score1 = display.newText("Pontos: ",display.contentCenterX, 750, native.systemFont, 40)
+sceneGroup:insert( score1 )
+
+function cobra:placar(a)
+    if a == 0 then
+        pontuacao.isVisible = false
+        pontuacao = display.newText("Frutas: ", 100, 750, native.systemFont, 40)
+        sceneGroup:insert( pontuacao )
+        
+        nivel.isVisible = false
+        nivel = display.newText("Nível ".. 1, 690, 750, native.systemFont, 40)
+        sceneGroup:insert( nivel )
+        
+        score1.isVisible = false
+        score1 = display.newText("Pontos: ",display.contentCenterX, 750, native.systemFont, 40)
+        sceneGroup:insert( score1 )
+    else
         pontuacao.isVisible = false
         pontuacao = display.newText("Frutas: " .. a, 100, 750, native.systemFont, 40)
         sceneGroup:insert( pontuacao )
+        
         nivel.isVisible = false
         nivel = display.newText("Nível " .. 1, 690, 750, native.systemFont, 40)
         sceneGroup:insert( nivel )
+        
         score1.isVisible = false
         score1 = display.newText("Pontos: ".. score[1],display.contentCenterX, 750, native.systemFont, 40)
         sceneGroup:insert( score1 )
     end
-    end
+end
 
 cobra:cobraInicial()
 
@@ -397,7 +383,7 @@ direcaoY = {0,60,120,180,240,300,360,420,480,540,600,660}
 
 score = {}
 score[1] = 0
---cria frutas em lugares aleatorios e muda a cor da fruta a cada rodada
+
 function frutas:criarFrutasAleatorias()
     frutas[1] = display.newRect(100,0,55,55)
     sceneGroup:insert( frutas[1] )
@@ -426,23 +412,19 @@ function frutas:criarFrutasAleatorias()
     frutas[1].y = direcaoY[math.random(1,12)]
 end
 
--- inicia os movimentos da cobra e frutas
 function iniciarMovimentos()
     cobra:geraPosicoesDoCorpo()
     cobra:comerFrutas()
     cobra:bateuPerdeu()
 end
+
 frutas:criarFrutasAleatorias()
 
--- a cada 0,3 segundos executa os metodos que realizam as funçõs da cobra
 tempo = timer.performWithDelay(300, iniciarMovimentos, 0)
 timer.resume(tempo)
 
 end
 
----------------------------------------------------------------------------------
-
--- Listener setup
 scene:addEventListener( "create", scene )
 
 return scene
