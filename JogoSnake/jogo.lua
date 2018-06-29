@@ -139,7 +139,7 @@ tabuleiro:gerar()
 tabuleiro:linhasDeLimiteDoJogo()
 
 function cobra:criarDirecoes()
-    direcoes[2] = "direita" direcoes[3] = "direita" direcoes[4] = "direita" direcoes[5] = "direita"
+--[[    direcoes[2] = "direita" direcoes[3] = "direita" direcoes[4] = "direita" direcoes[5] = "direita"
     direcoes[6] = "direita" direcoes[7] = "direita" direcoes[8] = "direita" direcoes[9] = "direita"
     direcoes[10] = "direita" direcoes[11] = "direita" direcoes[12] = "direita"direcoes[13] = "direita" 
     direcoes[14] = "direita" direcoes[15] = "direita" direcoes[16] = "direita" direcoes[17] = "direita" 
@@ -154,8 +154,11 @@ function cobra:criarDirecoes()
     direcoes[50] = "direita" direcoes[51] = "direita" direcoes[52] = "direita"direcoes[53] = "direita" 
     direcoes[54] = "direita" direcoes[55] = "direita" direcoes[56] = "direita" direcoes[57] = "direita" 
     direcoes[58] = "direita" direcoes[59] = "direita" direcoes[60] = "direita"direcoes[61] = "direita"
-
+]]--
+    for as = 2, 61 do
+    direcoes[as] = "direita"
     end
+end
     
     cobra:criarDirecoes()
 
@@ -214,6 +217,7 @@ function zerarTodasAsVariaveis()
     dnovo.isVisible = false
     contFrutas = 0
     score[1] = 0
+    fundo.isVisible = nil
     timer.resume(tempo)
 end
 
@@ -289,6 +293,13 @@ end
 
 pausa:addEventListener("touch", pausarEresume)
 function cobra:desejaContinuar()
+	fundo = display.newImageRect( "fundo.jpg", display.actualContentWidth, display.actualContentHeight )
+	fundo.anchorX = 0
+	fundo.anchorY = 0
+	fundo.x = 0 + display.screenOriginX 
+	fundo.y = 0 + display.screenOriginY
+        sceneGroup:insert( fundo )
+
     perdeu = display.newRect(display.contentCenterX,370,500,300)
     perdeu:setFillColor(0,0,0)
     perdeu:setStrokeColor(0,255,255)
@@ -307,10 +318,30 @@ function cobra:desejaContinuar()
     pausa.isVisible = false
     dnovo:addEventListener("touch", reiniciar)
 end
-        
-function sairDoJogo()
-    timer.pause(tempo)    
-    composer.gotoScene( "menu", "fade", 500 )
+
+local conts = 0 
+function sairDoJogo(event)
+    if event.phase == "began"  then 
+        if conts == 0 then
+            timer.pause(tempo)
+            perdeu = display.newRect(display.contentCenterX,370,500,300)
+            perdeu:setFillColor(0,0,0)
+            perdeu:setStrokeColor(0,255,255)
+            perdeu.strokeWidth = 15
+            sceneGroup:insert( perdeu )
+    
+            msg = display.newText(" realmente deseja\n     sair do jogo?", display.contentCenterX, 300, native.systemFont, 50)
+            sceneGroup:insert( msg )
+
+            sair2 = display.newImageRect("saida.png", 90,90)
+            sair2.x = display.contentCenterX
+            sair2.y = 450 
+        conts = 1
+        else
+            os.exit()
+        end
+    end
+    sair2:addEventListener("touch", sairDoJogo)
 end
 
 sair:addEventListener("touch", sairDoJogo)
