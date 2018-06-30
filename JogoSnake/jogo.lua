@@ -155,7 +155,7 @@ function cobra:criarDirecoes()
     direcoes[54] = "direita" direcoes[55] = "direita" direcoes[56] = "direita" direcoes[57] = "direita" 
     direcoes[58] = "direita" direcoes[59] = "direita" direcoes[60] = "direita"direcoes[61] = "direita"
 ]]--
-    for as = 2, 61 do
+    for as = 2, 145 do
     direcoes[as] = "direita"
     end
 end
@@ -164,7 +164,7 @@ end
 
     pi = 175
 function cobra:cobraInicial() 
-    for i = 2, 61 do
+    for i = 2, 145 do
         if i < 5 then
             cobra[i] = display.newRect(pi,0,55,55)
             cobra[i].isVisible = true
@@ -191,7 +191,7 @@ function reiniciar(event)
         direcao = "direita"
         cobra:criarDirecoes()
         
-        for i = 2, 61 do
+        for i = 2, 145 do
             if i < 5 then
                 cobra[i].x = pi
                 cobra[i].y = 0
@@ -349,7 +349,7 @@ function cobra:bateuPerdeu()
         cobra:desejaContinuar()     
 end
     
-    for a = 3, 61 do
+    for a = 3, 145 do
         if(cobra[2].x == cobra[a].x and cobra[2].y == cobra[a].y)then
             if(cobra[a].isVisible ~= false)then
                 cobra:desejaContinuar()    
@@ -436,6 +436,13 @@ function frutas:criarFrutasAleatorias()
         frutas:criarFrutasComPontuacoes()
         frutas[1].x = posicaox
         frutas[1].y = posicaoy
+    
+    for a = 2, 145 do
+        if(cobra[a].isVisible ~= false and cobra[a].x == frutas[1].x and cobra[a].y == frutas[1].y)then
+            frutas[1].isVisible = false
+            frutas:criarFrutasAleatorias()
+        end
+    end
 end
 
 function iniciarMovimentos()
@@ -446,7 +453,7 @@ end
 
 frutas:criarFrutasAleatorias()
 
-tempo = timer.performWithDelay(300, iniciarMovimentos, 0)
+tempo = timer.performWithDelay(250, iniciarMovimentos, 0)
 timer.resume(tempo)
 
 end
