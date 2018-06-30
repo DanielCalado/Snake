@@ -10,7 +10,7 @@ direcao = "direita"
 
 function scene:create( event )
     local sceneGroup = self.view
-    
+ 
 local function determinarDirecao(event)
     
     if event.phase == "began" then
@@ -177,11 +177,12 @@ function cobra:cobraInicial()
             pi = pi - 60
         end
     end
+    cobra[2]:setFillColor(0.9,0.9,0.9)
     pi = 175
 end
     
 local pausa = display.newImageRect("pausa.png", 90,90)
-      pausa.x = 55
+      pausa.x = 60
       pausa.y = 1130
       sceneGroup:insert( pausa )
 
@@ -219,6 +220,7 @@ function zerarTodasAsVariaveis()
     score[1] = 0
     fundo.isVisible = nil
     timer.resume(tempo)
+    audio.stop(af)
 end
 
 function cobra:direcaoDaCabeca(id)
@@ -292,6 +294,8 @@ function pausarEresume(event)
 end 
 
 pausa:addEventListener("touch", pausarEresume)
+somPerdeu = audio.loadSound( "perdeu.mp3" )
+
 function cobra:desejaContinuar()
 	fundo = display.newImageRect( "fundo.jpg", display.actualContentWidth, display.actualContentHeight )
 	fundo.anchorX = 0
@@ -306,7 +310,7 @@ function cobra:desejaContinuar()
     perdeu.strokeWidth = 15
     sceneGroup:insert( perdeu )
     
-    msg = display.newText(" -----(`-´)-----\nFim de Jogo", display.contentCenterX, 300, native.systemFont, 60)
+    msg = display.newText("   -----(`-´)-----\nFim de Jogo", display.contentCenterX, 300, native.systemFont, 60)
     sceneGroup:insert( msg )
 
     dnovo = display.newImageRect("dnovo.png", 90,90)
@@ -317,31 +321,15 @@ function cobra:desejaContinuar()
     timer.pause(tempo)
     pausa.isVisible = false
     dnovo:addEventListener("touch", reiniciar)
+    af = audio.play(somPerdeu)
 end
 
-local conts = 0 
-function sairDoJogo(event)
-    if event.phase == "began"  then 
-        if conts == 0 then
-            timer.pause(tempo)
-            perdeu = display.newRect(display.contentCenterX,370,500,300)
-            perdeu:setFillColor(0,0,0)
-            perdeu:setStrokeColor(0,255,255)
-            perdeu.strokeWidth = 15
-            sceneGroup:insert( perdeu )
-    
-            msg = display.newText(" realmente deseja\n     sair do jogo?", display.contentCenterX, 300, native.systemFont, 50)
-            sceneGroup:insert( msg )
+function sairDoJogo()
+    playSomJogo = audio.resume( somJogo, { channel=1, loops=-1, fadein=5000 } )
+    composer.gotoScene( "menu", "fade", 500 )
+    timer.pause(tempo)
+    pr = 1
 
-            sair2 = display.newImageRect("saida.png", 90,90)
-            sair2.x = display.contentCenterX
-            sair2.y = 450 
-        conts = 1
-        else
-            os.exit()
-        end
-    end
-    sair2:addEventListener("touch", sairDoJogo)
 end
 
 sair:addEventListener("touch", sairDoJogo)
@@ -415,7 +403,7 @@ direcaoY = {0,60,120,180,240,300,360,420,480,540,600,660}
 score = {}
 score[1] = 0
 
-function frutas:criarFrutasAleatorias()
+function frutas:criarFrutasComPontuacoes()
     frutas[1] = display.newRect(100,0,55,55)
     sceneGroup:insert( frutas[1] )
         local cor = math.random(6)
@@ -439,8 +427,15 @@ function frutas:criarFrutasAleatorias()
             score[1] = score[1] + 100
         end
 
-    frutas[1].x = direcaox[math.random(1,12)]
-    frutas[1].y = direcaoY[math.random(1,12)]
+end
+function frutas:criarFrutasAleatorias()
+    
+    posicaox = direcaox[math.random(1,12)]
+    posicaoy = direcaoY[math.random(1,12)]
+
+        frutas:criarFrutasComPontuacoes()
+        frutas[1].x = posicaox
+        frutas[1].y = posicaoy
 end
 
 function iniciarMovimentos()
