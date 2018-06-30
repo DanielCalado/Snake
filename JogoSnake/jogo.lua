@@ -321,11 +321,15 @@ function cobra:desejaContinuar()
     timer.pause(tempo)
     pausa.isVisible = false
     dnovo:addEventListener("touch", reiniciar)
+    if(s == 1)then
     af = audio.play(somPerdeu)
+    end
 end
 
 function sairDoJogo()
+    if(s == 1)then
     playSomJogo = audio.resume( somJogo, { channel=1, loops=-1, fadein=5000 } )
+    end
     composer.gotoScene( "menu", "fade", 500 )
     timer.pause(tempo)
     pr = 1
@@ -443,13 +447,14 @@ function frutas:criarFrutasAleatorias()
             frutas:criarFrutasAleatorias()
         end
     end
-end
+end 
 
 function iniciarMovimentos()
     cobra:geraPosicoesDoCorpo()
     cobra:comerFrutas()
     cobra:bateuPerdeu()
 end
+
 
 frutas:criarFrutasAleatorias()
 
