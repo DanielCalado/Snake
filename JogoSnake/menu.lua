@@ -12,26 +12,26 @@ end
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newImageRect( "background.png", display.actualContentWidth, display.actualContentHeight )
+	local background = display.newImageRect( "imagens/background.png", display.actualContentWidth, display.actualContentHeight )
 	background.anchorX = 0
 	background.anchorY = 0
 	background.x = 0 + display.screenOriginX 
 	background.y = 0 + display.screenOriginY
 	
-	local iniciar = display.newImageRect("iniciar.png",220,90)
+	local iniciar = display.newImageRect("imagens/iniciar.png",220,90)
 	iniciar.x = display.contentCenterX
 	iniciar.y = 820
 
 	iniciar:addEventListener("touch", irParaOJogo)
 
-	local sair2 = display.newImageRect("saida.png", 90,90)
+	local sair2 = display.newImageRect("imagens/saida.png", 90,90)
 	sair2.x = 65
 	sair2.y = 1125
 
-	somJogo = audio.loadSound( "somJogo.mp3" )
+	somJogo = audio.loadSound( "sons/somJogo.mp3" )
 	playSomJogo = audio.play( somJogo, { channel=1, loops=-1, fadein=5000 } )
 
-	somLigado = display.newImageRect("somLigado.png", 90,90)
+	somLigado = display.newImageRect("imagens/somLigado.png", 90,90)
 	somLigado.x = 700
 	somLigado.y = 1125
 
@@ -41,7 +41,7 @@ function scene:create( event )
 			if(s == 1)then
 				playSomJogo = audio.pause( somJogo )
 				somLigado:removeSelf()
-				somLigado = display.newImageRect("somDesligado.png", 90,90)
+				somLigado = display.newImageRect("imagens/somDesligado.png", 90,90)
 				somLigado.x = 700
 				somLigado.y = 1125
 				sceneGroup:insert(somLigado)	
@@ -50,7 +50,7 @@ function scene:create( event )
 			else
 				playSomJogo = audio.resume( somJogo )
 				somLigado:removeSelf()
-				somLigado = display.newImageRect("somLigado.png", 90,90)
+				somLigado = display.newImageRect("imagens/somLigado.png", 90,90)
 				somLigado.x = 700
 				somLigado.y = 1125
 				sceneGroup:insert(somLigado)	

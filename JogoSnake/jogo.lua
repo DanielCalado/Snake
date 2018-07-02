@@ -25,8 +25,8 @@ local moverParaCima = widget.newButton(
         width = 220,
         height = 175,
         id = "cima",
-        defaultFile = "seta.png",
-        overFile = "seta2.png",
+        defaultFile = "imagens/seta.png",
+        overFile = "imagens/seta2.png",
         onEvent = determinarDirecao
     }
 )
@@ -40,8 +40,8 @@ local moverParaBixo = widget.newButton(
         width = 220,
         height = 175,
         id = "baixo",
-        defaultFile = "seta.png",
-        overFile = "seta2.png",
+        defaultFile = "imagens/seta.png",
+        overFile = "imagens/seta2.png",
         onEvent = determinarDirecao
     }
 )
@@ -56,8 +56,8 @@ local moverParaADireita = widget.newButton(
         width = 220,
         height = 175,
         id = "direita",
-        defaultFile = "seta.png",
-        overFile = "seta2.png",
+        defaultFile = "imagens/seta.png",
+        overFile = "imagens/seta2.png",
         onEvent = determinarDirecao
     }
 )
@@ -72,8 +72,8 @@ local moverParaAEsquerda = widget.newButton(
         width = 220,
         height = 175,
         id = "esquerda",
-        defaultFile = "seta.png",
-        overFile = "seta2.png",
+        defaultFile = "imagens/seta.png",
+        overFile = "imagens/seta2.png",
         onEvent = determinarDirecao
     }
 )
@@ -170,7 +170,7 @@ function cobra:cobraInicial()
     pi = 175
 end
     
-local pausa = display.newImageRect("pausa.png", 90,90)
+local pausa = display.newImageRect("imagens/pausa.png", 90,90)
       pausa.x = 60
       pausa.y = 1130
       sceneGroup:insert( pausa )
@@ -271,7 +271,7 @@ function cobra:comerFrutas()
     end
 end
 
-sair = display.newImageRect("voltar.png", 90,90)
+sair = display.newImageRect("imagens/voltar.png", 90,90)
 sair.x = 700
 sair.y = 1130
 sceneGroup:insert( sair )
@@ -291,11 +291,11 @@ function pausarEresume(event)
 end 
 
 pausa:addEventListener("touch", pausarEresume)
-somPerdeu = audio.loadSound( "perdeu.mp3" )
+somPerdeu = audio.loadSound( "sons/perdeu.mp3" )
 
 --ao colidir com si mesma ou com as linhas de limitação, uma mensagem de deseja continuar e exibida
 function cobra:desejaContinuar()
-	fundo = display.newImageRect( "fundo.jpg", display.actualContentWidth, display.actualContentHeight )
+	fundo = display.newImageRect( "imagens/fundo.jpg", display.actualContentWidth, display.actualContentHeight )
 	fundo.anchorX = 0
 	fundo.anchorY = 0
 	fundo.x = 0 + display.screenOriginX 
@@ -311,7 +311,7 @@ function cobra:desejaContinuar()
     msg = display.newText(" -----(`-´)-----\nFim de Jogo", display.contentCenterX, 300, native.systemFont, 60)
     sceneGroup:insert( msg )
 
-    dnovo = display.newImageRect("dnovo.png", 90,90)
+    dnovo = display.newImageRect("imagens/dnovo.png", 90,90)
     dnovo.x = display.contentCenterX
     dnovo.y = 450
     sceneGroup:insert( dnovo )
